@@ -28,11 +28,21 @@ void init_scheduler(void) {
 #ifdef MLQ_SCHED
 	int i ;
 
-	for (i = 0; i < MAX_PRIO; i ++)
+	for (i = 0; i < MAX_PRIO; i ++) {
 		mlq_ready_queue[i].size = 0;
+        mlq_ready_queue[i].slot =  MAX_PRIO - i;
+        mlq_ready_queue[i].top = -1;
+        mlq_ready_queue[i].bot = 0;
+    }
 #endif
 	ready_queue.size = 0;
 	run_queue.size = 0;
+    #ifdef MLQ_SCHED
+    ready_queue.size = 0;
+    ready_queue.slot =  MAX_PRIO - i;
+    ready_queue.top = -1;
+    ready_queue.bot = 0;
+    #endif
 	pthread_mutex_init(&queue_lock, NULL);
 }
 
